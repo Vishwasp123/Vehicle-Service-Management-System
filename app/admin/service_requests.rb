@@ -17,7 +17,7 @@ ActiveAdmin.register ServiceRequest do
 
   scope :all
 
-   controller do
+  controller do
     def scoped_collection
       if current_user.role == 'user' # current user user show this 
         ServiceRequest.for_current_user(current_user)
@@ -29,7 +29,9 @@ ActiveAdmin.register ServiceRequest do
   
 
   form do |f|
-    f.inputs "Service Request Details" do
+    f.inputs "Service Request Details " do
+
+      #conditon input based on user role
       f.input :user, as: :select, collection: User.all.map { |u| [u.email, u.id] }, prompt: "Select a User"
       f.input :status, as: :select, collection: ['pending', 'completed', 'cancelled'], include_blank: false,  default: 'pending'
       f.input :vehicle_name
@@ -38,9 +40,8 @@ ActiveAdmin.register ServiceRequest do
       vehicle_model_options << ["Other", "other" ]
       f.input :vehicle_model, as: :select, collection: vehicle_model_options ,prompt: "Select vehicle model"
       f.input :vehicle_registration_number
-        f.input :service_date, as: :datepicker, input_html: { min: Date.today, value: Date.today }
+      f.input :service_date, as: :datepicker, input_html: { min: Date.today.strftime("%m/%d/%Y") }
 
-      f.input :service_time, as: :string, input_html: { placeholder: Time.now.strftime("%I:%M %p"), class: 'timepicker' }    
       f.input :service_by, as: :select, collection: Mechanic.all.map{|m| [m.mechanic_name, m.id]} , prompt: "Select Mechanic"
       f.input :service_charges
       f.input :delivery_type, as: :select, collection: [ 'drop-service', 'pick-up', 'other' ], include_blank: false

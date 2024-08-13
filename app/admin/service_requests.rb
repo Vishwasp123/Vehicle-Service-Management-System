@@ -1,6 +1,7 @@
 ActiveAdmin.register ServiceRequest do
 
 
+
   permit_params :user_id, :service_description, :status, :amount
 
   index do

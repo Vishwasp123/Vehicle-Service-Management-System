@@ -7,7 +7,9 @@ ActiveAdmin.register ServiceRequest do
     selectable_column
     id_column
     column :user
-    column :service_description
+    column :vehicle_name
+    column :vehicle_registration_number
+    column :vehicle_model
     column :status
     column :amount
     actions
@@ -17,7 +19,7 @@ ActiveAdmin.register ServiceRequest do
 
    controller do
     def scoped_collection
-      if current_user.role == 'user' # Replace 'role' with the actual role you want to check
+      if current_user.role == 'user' # current user user show this 
         ServiceRequest.for_current_user(current_user)
       else
         super
@@ -29,9 +31,21 @@ ActiveAdmin.register ServiceRequest do
   form do |f|
     f.inputs "Service Request Details" do
       f.input :user, as: :select, collection: User.all.map { |u| [u.email, u.id] }, prompt: "Select a User"
-      f.input :service_description
       f.input :status, as: :select, collection: ['pending', 'completed', 'cancelled'], include_blank: false,  default: 'pending'
+      f.input :vehicle_name
+
+      vehicle_model_options = VehicleBrand.all.map{|v| [v.vehicle_brand_name, v.id]}
+      vehicle_model_options << ["Other", "other" ]
+      f.input :vehicle_model, as: :select, collection: vehicle_model_options ,prompt: "Select vehicle model"
+      f.input :vehicle_registration_number
+        f.input :service_date, as: :datepicker, input_html: { min: Date.today, value: Date.today }
+
+      f.input :service_time, as: :string, input_html: { placeholder: Time.now.strftime("%I:%M %p"), class: 'timepicker' }    
+      f.input :service_by, as: :select, collection: Mechanic.all.map{|m| [m.mechanic_name, m.id]} , prompt: "Select Mechanic"
+      f.input :service_charges
+      f.input :delivery_type, as: :select, collection: [ 'drop-service', 'pick-up', 'other' ], include_blank: false
       f.input :amount
+      f.input :service_description
     end
     f.actions
   end

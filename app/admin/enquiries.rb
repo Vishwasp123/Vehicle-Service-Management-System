@@ -2,7 +2,6 @@ ActiveAdmin.register Enquiry do
   permit_params :user_id, :subject, :message, :response, :status
 
   index do 
-    selectable_column
     id_column
     column :user
     column :subject

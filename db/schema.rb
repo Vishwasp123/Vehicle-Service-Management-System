@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_08_08_105101) do
+ActiveRecord::Schema[7.1].define(version: 2024_08_12_135157) do
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
@@ -36,6 +36,15 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_08_105101) do
     t.index ["user_id"], name: "index_enquiries_on_user_id"
   end
 
+  create_table "mechanics", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "mechanic_name"
+    t.string "mechanic_contact_number"
+    t.string "mechanic_email"
+    t.string "mechanic_address"
+  end
+
   create_table "service_requests", force: :cascade do |t|
     t.integer "user_id", null: false
     t.text "service_description"
@@ -43,6 +52,16 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_08_105101) do
     t.integer "amount"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "vehicle_name"
+    t.string "vehicle_model"
+    t.string "vehicle_registraion_number"
+    t.date "service_date"
+    t.time "service_time"
+    t.integer "delivery_type"
+    t.string "vehicle_registration_number"
+    t.string "service_by"
+    t.integer "service_charges"
+    t.integer "additional_charges"
     t.index ["user_id"], name: "index_service_requests_on_user_id"
   end
 
@@ -58,6 +77,19 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_08_105101) do
     t.string "name"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  end
+
+  create_table "vehicle_brands", force: :cascade do |t|
+    t.string "vehicle_brand_name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "vehicle_categories", force: :cascade do |t|
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "category_name"
   end
 
   add_foreign_key "enquiries", "users"

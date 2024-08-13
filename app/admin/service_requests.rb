@@ -32,8 +32,14 @@ ActiveAdmin.register ServiceRequest do
     f.inputs "Service Request Details " do
 
       #conditon input based on user role
-      f.input :user, as: :select, collection: User.all.map { |u| [u.email, u.id] }, prompt: "Select a User"
-      f.input :status, as: :select, collection: ['pending', 'completed', 'cancelled'], include_blank: false,  default: 'pending'
+
+      # if current_user.role == 'admin'
+
+
+     f.input :user_id, as: :select, collection: User.all.map { |user| [user.email, user.id] }, prompt: "Select a User"
+       f.input :status, as: :select, collection: ['pending', 'completed', 'cancelled'], include_blank: false,  default: 'pending'
+
+     # end
       f.input :vehicle_name
 
       vehicle_model_options = VehicleBrand.all.map{|v| [v.vehicle_brand_name, v.id]}

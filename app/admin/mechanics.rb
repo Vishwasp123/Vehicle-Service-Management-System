@@ -1,4 +1,4 @@
-ActiveAdmin.register Mechanic do
+ActiveAdmin.register Mechanic   do
 
   permit_params :mechanic_name, :mechanic_contact_number, :mechanic_email, :mechanic_address
 

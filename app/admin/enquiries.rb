@@ -1,7 +1,19 @@
 ActiveAdmin.register Enquiry do
   permit_params :user_id, :subject, :message, :response, :status
 
-  index do 
+
+
+  controller  do 
+    def scoped_collection
+      if current_user.role == 'user'
+        Enquiry.where(user_id: current_user.id)
+      else
+        Enquiry.all
+      end
+    end
+  end
+
+  index do  
     id_column
     column :user
     column :subject
@@ -14,11 +26,13 @@ ActiveAdmin.register Enquiry do
   scope :all
   scope :pending, :default => true do |status|
     status.where(:status => 'pending')
-   end
-    scope :approve, :default => true do |status|
+  end
+  scope :approve, :default => true do |status|
     status.where(:status => 'resolved')
-   end
-  form do |f|
+  end
+ 
+
+ form do |f|
   f.inputs "Enquiry Details" do
     # Conditional input based on user role
     if current_user.role == 'admin'
@@ -26,7 +40,7 @@ ActiveAdmin.register Enquiry do
       f.input :response
       f.input :status, as: :select, collection: ['pending', 'resolved']
     else
-      f.input :user_id, as: :select, collection: [[current_user.email, current_user.id]], include_blank: false, input_html: { disabled: true, value: current_user.id }
+      f.input :user_id, as: :hidden, collection: [[current_user.email, current_user.id]], include_blank: false, input_html: { value: current_user.id }
       f.input :status, as: :select, collection: ['pending', 'resolved'] , input_html: {disabled: true}
     end
     f.input :subject
@@ -34,7 +48,6 @@ ActiveAdmin.register Enquiry do
   end
   f.actions
 end
-
 
   show do 
     attributes_table do

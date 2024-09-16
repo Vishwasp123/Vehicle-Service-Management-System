@@ -21,6 +21,7 @@ ActiveAdmin.register User do
   
 
   form do |f|
+    debugger
     f.inputs "User Details" do
       f.input :name
       f.input :email

@@ -42,6 +42,7 @@ vishwas
   
 
 <<<<<<< HEAD
+<<<<<<< HEAD
   form do |f|
     f.inputs "Service Request Details " do
 
@@ -60,6 +61,8 @@ vishwas
       f.input :service_charges
       f.input :delivery_type, as: :select, collection: [ 'drop-service', 'pick-up', 'other' ], include_blank: false
 =======
+=======
+>>>>>>> 50476cdc2ab38d8e145b91dc282675590d05f539
  form do |f|
   f.semantic_errors # Display validation errors
 
@@ -69,7 +72,10 @@ vishwas
       f.input :user_id, as: :select, collection: User.all.map { |user| [user.email, user.id] }, prompt: "Select a User"
       f.input :status, as: :select, collection: ['pending', 'completed', 'cancelled'], include_blank: false, default: 'pending'
       f.input :service_by, as: :select, collection: Mechanic.all.map { |m| [m.mechanic_name, m.id] }, prompt: "Select Mechanic"
+<<<<<<< HEAD
 >>>>>>> Add changes in vehicle
+=======
+>>>>>>> 50476cdc2ab38d8e145b91dc282675590d05f539
       f.input :amount
       f.input :service_charges
     end

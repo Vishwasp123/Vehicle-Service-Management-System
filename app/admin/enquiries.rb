@@ -13,7 +13,8 @@ ActiveAdmin.register Enquiry do
     end
   end
 
-  index do  
+  index do 
+  debugger 
     id_column
     column :user
     column :subject
